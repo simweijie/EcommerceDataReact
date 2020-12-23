@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import UploadService from "../services/upload-files.service";
+import DataModelService from "../services/dataset.service";
 import { Link } from "react-router-dom";
 import Pagination from "@material-ui/lab/Pagination";
 import { Button, Col, Row, Table } from 'reactstrap';
@@ -23,10 +23,10 @@ export default class TutorialsList extends Component {
 
       page: 1,
       count: 0,
-      pageSize: 3,
+      pageSize: 5,
     };
 
-    this.pageSizes = [3, 6, 9];
+    this.pageSizes = [5, 10, 20];
   }
 
   componentDidMount() {
@@ -45,7 +45,7 @@ export default class TutorialsList extends Component {
     let params = {};
 
     if (searchTitle) {
-      params["title"] = searchTitle;
+      params["invoiceNo"] = searchTitle;
     }
 
     if (page) {
@@ -63,7 +63,7 @@ export default class TutorialsList extends Component {
     const { searchTitle, page, pageSize } = this.state;
     const params = this.getRequestParams(searchTitle, page, pageSize);
 
-    UploadService.getAll(params)
+    DataModelService.getAll(params)
       .then((response) => {
         const { dataSets, totalPages } = response.data;
         console.log(response.data.dataSets[0].invoiceNo);
@@ -100,7 +100,7 @@ export default class TutorialsList extends Component {
   }
 
   removeAllTutorials() {
-    UploadService.deleteAll()
+    DataModelService.deleteAll()
       .then((response) => {
         console.log(response.data);
         this.refreshList();
@@ -151,7 +151,7 @@ export default class TutorialsList extends Component {
             <input
               type="text"
               className="form-control"
-              placeholder="Search by title"
+              placeholder="Search by Invoice No."
               value={searchTitle}
               onChange={this.onChangeSearchTitle}
             />
@@ -167,8 +167,6 @@ export default class TutorialsList extends Component {
           </div>
         </div>
         <div>
-          <h4>Tutorials List</h4>
-
           <div>
             {"Items per Page: "}
             <select onChange={this.handlePageSizeChange} value={pageSize}>

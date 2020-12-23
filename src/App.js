@@ -125,50 +125,12 @@ import UploadFiles from "./components/upload-files.component";
 
 function App() {
   return (
-    <div className="container" style={{ width: "600px" }}>
-      <div style={{ margin: "20px" }}>
-        <h3>bezkoder.com</h3>
-        <h4>React upload Files</h4>
-      </div>
-      <UploadFiles />
+    <div className="container" style={{ width: "1000px" }}>
         <div classname="App">
             <div className="App-intro">
-              <h2>Data Set</h2>
+              <h2>Ecommerce Data Set</h2>
             </div>
           <UploadFiles />
-          <div className="table-responsive">
-              <Table responsive>
-                <thead>
-                  <tr>
-                    <th className="hand">
-                      Invoice No
-                    </th>
-                    <th className="hand">
-                      Stock Code
-                    </th>
-                    <th className="hand">
-                      Description
-                    </th>
-                    <th className="hand" >
-                      Quantity
-                    </th>
-                    <th className="hand">
-                      Invoice Date
-                    </th>
-                    <th className="hand">
-                      Unit Price
-                    </th>
-                    <th className="hand">
-                      Customer ID
-                    </th>
-                    <th className="hand">
-                      Country
-                    </th>
-                    <th />
-                  </tr>
-                </thead>
-            </Table>
-          </div>
         </div>
         <TutorialsList />
     </div>

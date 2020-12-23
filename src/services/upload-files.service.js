@@ -14,9 +14,9 @@ class UploadFilesService {
     });
   }
 
-  getAll(params) {
-    return http.get("/api/csv/tutorials/findByInvoiceNo", { params });
-  }
+//  getAll(params) {
+//    return http.get("/api/csv/tutorials/findByInvoiceNo", { params });
+//  }
 }
 
 export default new UploadFilesService();
