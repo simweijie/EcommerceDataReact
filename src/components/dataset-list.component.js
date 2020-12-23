@@ -1,25 +1,22 @@
 import React, { Component } from "react";
 import DataModelService from "../services/dataset.service";
-import { Link } from "react-router-dom";
 import Pagination from "@material-ui/lab/Pagination";
-import { Button, Col, Row, Table } from 'reactstrap';
+import {  Table } from 'reactstrap';
 
-export default class TutorialsList extends Component {
+export default class DataSetsList extends Component {
   constructor(props) {
     super(props);
     this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
-    this.retrieveTutorials = this.retrieveTutorials.bind(this);
+    this.retrieveDataSets = this.retrieveDataSets.bind(this);
     this.refreshList = this.refreshList.bind(this);
-    this.setActiveTutorial = this.setActiveTutorial.bind(this);
-    this.removeAllTutorials = this.removeAllTutorials.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
 
     this.state = {
       dataSets: [],
-      currentTutorial: null,
+      currentDataSet: null,
       currentIndex: -1,
-      searchTitle: "",
+      searchField: "",
 
       page: 1,
       count: 0,
@@ -30,22 +27,22 @@ export default class TutorialsList extends Component {
   }
 
   componentDidMount() {
-    this.retrieveTutorials();
+    this.retrieveDataSets();
   }
 
   onChangeSearchTitle(e) {
-    const searchTitle = e.target.value;
+    const searchField = e.target.value;
 
     this.setState({
-      searchTitle: searchTitle,
+      searchField: searchField,
     });
   }
 
-  getRequestParams(searchTitle, page, pageSize) {
+  getRequestParams(searchField, page, pageSize) {
     let params = {};
 
-    if (searchTitle) {
-      params["invoiceNo"] = searchTitle;
+    if (searchField) {
+      params["invoiceNo"] = searchField;
     }
 
     if (page) {
@@ -59,25 +56,17 @@ export default class TutorialsList extends Component {
     return params;
   }
 
-  retrieveTutorials() {
-    const { searchTitle, page, pageSize } = this.state;
-    const params = this.getRequestParams(searchTitle, page, pageSize);
+  retrieveDataSets() {
+    const { searchField, page, pageSize } = this.state;
+    const params = this.getRequestParams(searchField, page, pageSize);
 
     DataModelService.getAll(params)
       .then((response) => {
         const { dataSets, totalPages } = response.data;
-        console.log(response.data.dataSets[0].invoiceNo);
-        console.log(dataSets)
-        console.log(totalPages)
         this.setState({
           dataSets: dataSets,
           count: totalPages,
         });
-        console.log('hi');
-//        console.log(response.data);
-        console.log(this.state.dataSets[0].invoiceNo)
-        console.log(this.state.count)
-        console.log('hi2');
       })
       .catch((e) => {
         console.log(e);
@@ -85,29 +74,11 @@ export default class TutorialsList extends Component {
   }
 
   refreshList() {
-    this.retrieveTutorials();
+    this.retrieveDataSets();
     this.setState({
-      currentTutorial: null,
+      currentDataSet: null,
       currentIndex: -1,
     });
-  }
-
-  setActiveTutorial(tutorial, index) {
-    this.setState({
-      currentTutorial: tutorial,
-      currentIndex: index,
-    });
-  }
-
-  removeAllTutorials() {
-    DataModelService.deleteAll()
-      .then((response) => {
-        console.log(response.data);
-        this.refreshList();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
   }
 
   handlePageChange(event, value) {
@@ -116,7 +87,7 @@ export default class TutorialsList extends Component {
         page: value,
       },
       () => {
-        this.retrieveTutorials();
+        this.retrieveDataSets();
       }
     );
   }
@@ -128,16 +99,16 @@ export default class TutorialsList extends Component {
         page: 1
       },
       () => {
-        this.retrieveTutorials();
+        this.retrieveDataSets();
       }
     );
   }
 
   render() {
     const {
-      searchTitle,
+      searchField,
       dataSets,
-      currentTutorial,
+      currentDataSet,
       currentIndex,
       page,
       count,
@@ -152,14 +123,14 @@ export default class TutorialsList extends Component {
               type="text"
               className="form-control"
               placeholder="Search by Invoice No."
-              value={searchTitle}
+              value={searchField}
               onChange={this.onChangeSearchTitle}
             />
             <div className="input-group-append">
               <button
                 className="btn btn-outline-secondary"
                 type="button"
-                onClick={this.retrieveTutorials}
+                onClick={this.retrieveDataSets}
               >
                 Search
               </button>
@@ -209,19 +180,19 @@ export default class TutorialsList extends Component {
                     </tr>
                   </thead>
                     <tbody>
-                {dataSets &&
-                  dataSets.map((dataSet, index) => (
-                  <tr>
-                    <td>{dataSet.invoiceNo}</td>
-                    <td>{dataSet.stockCode}</td>
-                    <td>{dataSet.description}</td>
-                    <td>{dataSet.quantity}</td>
-                    <td>{dataSet.invoiceDate}</td>
-                    <td>{dataSet.unitPrice}</td>
-                    <td>{dataSet.customerID}</td>
-                    <td>{dataSet.country}</td>
-                  </tr>
-                  ))}
+                        {dataSets &&
+                          dataSets.map((dataSet, index) => (
+                          <tr>
+                            <td>{dataSet.invoiceNo}</td>
+                            <td>{dataSet.stockCode}</td>
+                            <td>{dataSet.description}</td>
+                            <td>{dataSet.quantity}</td>
+                            <td>{dataSet.invoiceDate}</td>
+                            <td>{dataSet.unitPrice}</td>
+                            <td>{dataSet.customerID}</td>
+                            <td>{dataSet.country}</td>
+                          </tr>
+                          ))}
                     </tbody>
                 </Table>
             </div>

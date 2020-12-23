@@ -18,14 +18,6 @@ export default class UploadFiles extends Component {
     };
   }
 
-//  componentDidMount() {
-//    UploadService.getFiles().then((response) => {
-//      this.setState({
-//        fileInfos: response.data,
-//      });
-//    });
-//  }
-
   selectFile(event) {
     this.setState({
       selectedFiles: event.target.files,
@@ -49,24 +41,8 @@ export default class UploadFiles extends Component {
         this.setState({
           message: response.data.message,
         });
-//        return UploadService.getFiles();
+        window.location.reload(false);
       })
-//      .then((files) => {
-//        this.setState({
-//          fileInfos: files.data,
-//        });
-//      })
-//      .catch(() => {
-//        this.setState({
-//          progress: 0,
-//          message: "Could not upload the file!",
-//          currentFile: undefined,
-//        });
-//      });
-//
-//    this.setState({
-//      selectedFiles: undefined,
-//    });
   }
 
   render() {
