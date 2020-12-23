@@ -26,6 +26,8 @@ export default class DataSetsList extends Component {
     this.pageSizes = [5, 10, 20];
   }
 
+  formatter = new Intl.DateTimeFormat("en-GB",{dateStyle: 'short', timeStyle: 'short', hour12:true })
+
   componentDidMount() {
     this.retrieveDataSets();
   }
@@ -187,7 +189,9 @@ export default class DataSetsList extends Component {
                             <td>{dataSet.stockCode}</td>
                             <td>{dataSet.description}</td>
                             <td>{dataSet.quantity}</td>
-                            <td>{dataSet.invoiceDate}</td>
+                            <td>
+                                {this.formatter.format(Date.parse(dataSet.invoiceDate))}
+                            </td>
                             <td>{dataSet.unitPrice}</td>
                             <td>{dataSet.customerID}</td>
                             <td>{dataSet.country}</td>
